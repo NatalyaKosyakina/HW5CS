@@ -37,6 +37,23 @@ namespace Lesson5
             double number = 0;
             while (flag1)
             {
+                while (flag2)
+                {
+                    Console.WriteLine("Выберите действие: ");
+                    string? doing = Console.ReadLine();
+                    if (doing.Equals(String.Empty))
+                    {
+                        flag2 = false;
+                        flag1 = false;
+                    }
+                    else
+                    {
+                        SelectDoing(sendler, number, doing);
+                        ShowResult(sendler);
+                        flag2 = false;
+                    }
+                }
+
                 Console.WriteLine("Введите число: ");
                 string? input = Console.ReadLine();
                 if (input.Equals(String.Empty))
@@ -47,28 +64,9 @@ namespace Lesson5
                 {
                     if (double.TryParse(input, out number))
                     {
-                        //if (sendler.getResultsCount() == 0)
-                        //{
-                        //    sendler.summ(number);
-                        //}
                         flag2 = true;
                     }
-                    while (flag2)
-                    {
-                        Console.WriteLine("Выберите действие: ");
-                        string? doing = Console.ReadLine();
-                        if (doing.Equals(String.Empty))
-                        {
-                            flag2 = false;
-                            flag1 = false;
-                        }
-                        else
-                        {
-                            SelectDoing(sendler, number, doing);
-                            ShowResult(sendler);
-                            flag2 = false;
-                        }
-                    }
+
                 }
             }            
         }
