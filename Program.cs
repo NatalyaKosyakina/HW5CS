@@ -4,59 +4,73 @@ namespace Lesson5
 {
     internal class Program
     {
-        public static void ex1()
+        public static void ShowResult(MyCalc sendler)
         {
-            /*Спроектируем интерфейс калькулятора, поддерживающего простые арифметические действия,
-             * хранящего результат и также способного выводить информацию о результате  при помощи события
-
-            static void Calculator_GotResult(object sendler, EventArgs eventArgs)
-            {
-                Console.WriteLine($"{((Calculator)sendler).Result}");
-            }
-            static void Calculator_GotResultTwo(object sendler, EventArgs eventArgs)
-            {
-                Console.WriteLine($"result = {((Calculator)sendler).Result}");
-            }
-            static void Main(string[] args)
-            {
-                ICalc calc = new Calculator();
-
-                calc.GotResult += Calculator_GotResult;
-                calc.GotResult += Calculator_GotResultTwo;
-                calc.Sum(12);
-                calc.Substruct(7);
-                calc.Multiply(13);
-
-            }*/
-        }
-        public static void ex2() { 
+            Console.WriteLine("Результат: " + sendler.Result);
         }
 
-        public static void ex3()
+        public static void SelectDoing(MyCalc sendler, double num1, string doing)
         {
-            /*Описание: Создайте метод, который принимает список чисел и функцию (делегат Func),
-             * выполняющую какую-либо операцию над числами и возвращающую результат.*/
-            
-        }
-        static int calculateSumm(List<int> numbers, Predicate<int> iseven, Func<int, int, int> operation, Action<int> actsome)
-        {
-            int summ = 0;
-            foreach (var item in numbers)
+            switch (doing)
             {
-                if (iseven(item))
-                {
-                    summ = operation(item, summ);
-                    actsome(summ);
-                }               
+                case "+":
+                    sendler.summ(num1);
+                    break;
+                case "-":
+                    sendler.subtract(num1);
+                    break; 
+                case "*":
+                    sendler.multiply(num1);
+                    break;
+                case "/":
+                    sendler.divide(num1);
+                    break;
+                default: Console.WriteLine("Нет такого действия");
+                    break;
             }
-            return summ;
-        } 
+        }
         static void Main(string[] args)
         {
-            List<int> numbers = new List<int>() { 2, 3, 4, 5, 6, 9, 8, 7};
-
-            int res = calculateSumm(numbers, x => x % 2 == 0, (x, y) => x + y, Console.WriteLine);
-            Console.WriteLine(res);
+            MyCalc sendler = new MyCalc();
+            bool flag1 = true;
+            bool flag2 = false;
+            double number = 0;
+            while (flag1)
+            {
+                Console.WriteLine("Введите число: ");
+                string? input = Console.ReadLine();
+                if (input.Equals(String.Empty))
+                {
+                    flag1 = false;
+                }
+                else
+                {
+                    if (double.TryParse(input, out number))
+                    {
+                        //if (sendler.getResultsCount() == 0)
+                        //{
+                        //    sendler.summ(number);
+                        //}
+                        flag2 = true;
+                    }
+                    while (flag2)
+                    {
+                        Console.WriteLine("Выберите действие: ");
+                        string? doing = Console.ReadLine();
+                        if (doing.Equals(String.Empty))
+                        {
+                            flag2 = false;
+                            flag1 = false;
+                        }
+                        else
+                        {
+                            SelectDoing(sendler, number, doing);
+                            ShowResult(sendler);
+                            flag2 = false;
+                        }
+                    }
+                }
+            }            
         }
     }
 }
