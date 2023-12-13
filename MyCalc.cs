@@ -15,8 +15,15 @@ namespace Lesson5
         public void divide(double x)
         {
             Results.Push(Result);
-            Result /= x;
-            RaiseEvent();
+            try
+            {
+                Result /= x;
+                RaiseEvent();
+            }
+            catch (DivideByZeroException e) { 
+            throw  new CalculatorDivideByZeroException(e);
+            }
+            
         }
 
         public void multiply(double x)
