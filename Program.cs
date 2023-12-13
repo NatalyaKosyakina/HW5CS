@@ -9,24 +9,41 @@ namespace Lesson5
             Console.WriteLine("Результат: " + sendler.Result);
         }
 
-        public static void SelectDoing(MyCalc sendler, double num1, string doing)
+        public static void CheckForException(Action<double> action, double value) {
+            try
+            {
+                checked
+                {
+                    double value1 = value;
+                    action.Invoke(value1);
+                }
+            }
+            catch (OverflowException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
+
+        public static bool SelectDoing(MyCalc sendler, string doing, out Action<double> action)
         {
             switch (doing)
             {
                 case "+":
-                    sendler.summ(num1);
-                    break;
+                    action = sendler.summ;
+                    return true;
                 case "-":
-                    sendler.subtract(num1);
-                    break; 
+                    action = sendler.subtract;
+                    return true; 
                 case "*":
-                    sendler.multiply(num1);
-                    break;
+                    action = sendler.multiply;
+                    return true;
                 case "/":
-                    sendler.divide(num1);
-                    break;
-                default: Console.WriteLine("Нет такого действия");
-                    break;
+                    action = sendler.divide;
+                    return true;
+                default:
+                    action = null;
+                    Console.WriteLine("Нет такого действия");
+                    return false;
             }
         }
         static void Main(string[] args)
@@ -35,39 +52,56 @@ namespace Lesson5
             bool flag1 = true;
             bool flag2 = false;
             double number = 0;
+            Action<double> doing = Console.WriteLine;
+            Console.WriteLine("Введите число: ");
+            string? input = Console.ReadLine();
+            if (input.Equals(String.Empty))
+            {
+                flag1 = false;
+            }
+            else
+            {
+                if (double.TryParse(input, out checked(number)))
+                {
+                    flag2 = true;
+                    sendler.Result = number;
+                }
+
+            }
+
             while (flag1)
             {
                 while (flag2)
                 {
                     Console.WriteLine("Выберите действие: ");
-                    string? doing = Console.ReadLine();
-                    if (doing.Equals(String.Empty))
+                    string? inputdoing = Console.ReadLine();
+                    if (inputdoing.Equals(String.Empty))
                     {
                         flag2 = false;
                         flag1 = false;
                     }
                     else
                     {
-                        SelectDoing(sendler, number, doing);
-                        ShowResult(sendler);
-                        flag2 = false;
+                        flag2 = !SelectDoing(sendler, inputdoing, out doing);
                     }
                 }
 
                 Console.WriteLine("Введите число: ");
-                string? input = Console.ReadLine();
+                input = Console.ReadLine();
                 if (input.Equals(String.Empty))
                 {
                     flag1 = false;
                 }
                 else
                 {
-                    if (double.TryParse(input, out number))
+                    if (double.TryParse(input, out checked (number)))
                     {
+                        CheckForException(doing, number);
                         flag2 = true;
                     }
 
                 }
+                ShowResult(sendler);
             }            
         }
     }

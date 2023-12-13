@@ -14,16 +14,15 @@ namespace Lesson5
 
         public void divide(double x)
         {
-            Results.Push(Result);
-            try
+            if (x == 0) { 
+                Console.WriteLine("Деление на 0 невозможно."); 
+            }
+            else
             {
                 Result /= x;
                 RaiseEvent();
             }
-            catch (DivideByZeroException e) { 
-            throw  new CalculatorDivideByZeroException(e);
-            }
-            
+            Results.Push(Result);
         }
 
         public void multiply(double x)
