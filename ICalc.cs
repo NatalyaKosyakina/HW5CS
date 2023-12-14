@@ -10,9 +10,13 @@ namespace Lesson5
     {
         event EventHandler GotResult;
         void summ(double x);
+        void summ(int  x);
         void subtract(double x);
+        void subtract(int x);
         void multiply(double x);
+        void multiply(int x);
         void divide(double x);
+        void divide(int x);
         void RaiseEvent();
     }
 }

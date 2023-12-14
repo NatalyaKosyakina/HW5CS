@@ -61,5 +61,40 @@ namespace Lesson5
         {
             return Results.Count;
         }
+
+        public void summ(int x)
+        {
+            Results.Push(Result);
+            Result += x;
+            RaiseEvent();
+        }
+
+        public void subtract(int x)
+        {
+            Results.Push(Result);
+            Result -= x;
+            RaiseEvent();
+        }
+
+        public void multiply(int x)
+        {
+            Results.Push(Result);
+            Result *= x;
+            RaiseEvent();
+        }
+
+        public void divide(int x)
+        {
+            if (x == 0)
+            {
+                Console.WriteLine("Деление на 0 невозможно.");
+            }
+            else
+            {
+                Result /= x;
+                RaiseEvent();
+            }
+            Results.Push(Result);
+        }
     }
 }
